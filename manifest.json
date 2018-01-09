@@ -1,0 +1,18 @@
+{
+  "manifest_version": 2,
+
+  "name": "Managebac Grade Calculator",
+  "version": "0.1.0",
+  "description": "Grade Calculator",
+
+  "browser_action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [{
+    "all_frames": true,
+    "css": ["styles.css"],
+    "js": ["jquery-3.2.1.min.js", "content.js"],
+    "matches": ["*://*.managebac.com/student/classes/*/assignments"]
+  }]
+
+}
