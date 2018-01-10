@@ -5,7 +5,8 @@ Chrome extension that calculates your grade on managebac.com
 
 * Download the zip
 * Unzip it
-* Go to Chrome extensions [Click here if you are using chrome](chrome://extensions/)
+* Click More (the 3 dots in the right top corner)
+* Go to More tools and then Extensions
 * Click on: Developer mode
 * Click on: Load unpacked extension and select the folder
 * DONE!
