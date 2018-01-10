@@ -8,12 +8,13 @@ $('.table-condensed tbody tr').each(function(i) {
   var cat = {}
   cat.name = $(this).children().first().text();
   cat.weight = Number($(this).find('.text-right').text().replace(/[^0-9]+/g, ""));
-  cat.avg = getGradeAvg(cat.name)
+  cat.grades = getGrade(cat.name)
+  cat.avg = getAvg(cat.grades)
   cat.specialNum = cat.avg * cat.weight / 100;
   categories.push(cat)
 })
 
-function getGradeAvg(cat) {
+function getGrade(cat) {
   var grades = [];
   $('.label-score').each(function(i) {
     if(cat.indexOf($(this).parent().parent().children().eq(2).text()) > -1) {
@@ -24,11 +25,15 @@ function getGradeAvg(cat) {
       grades.push(b[0] / b[1] * 100);
     }
   })
+  return grades;
+}
+
+function getAvg(grades) {
   var sum = 0;
   for(var i = 0; i < grades.length; i++) {
     sum += parseInt(grades[i], 10);
   }
-  return sum/grades.length;s
+  return sum/grades.length;
 }
 
 function fresult() {
@@ -48,12 +53,70 @@ function fresult() {
       sumSpecial += categories[i].specialNum;
     }
   }
-  console.log(sumWeight);
-  console.log(sumSpecial);
+  //console.log(sumWeight);
+  //console.log(sumSpecial);
   return sumSpecial / sumWeight * 100;
 }
 
 console.log(fresult());
-console.log(categories);
+var form = document.getElementsByClassName('simple_form')[0];
+var result = document.createElement('h2');
+result.innerHTML = "Grade: " + fresult() + "%";
+form.appendChild(result)
 
-})
+var body = document.getElementsByClassName('content-block')[0];
+var tbl = document.createElement('table');
+tbl.setAttribute('id', 'gradeChart');
+tbl.setAttribute('border', '1')
+tbl.style.margin = '20px';
+var tbdy = document.createElement('tbody');
+
+tbl.appendChild(tbdy);
+body.appendChild(tbl);
+
+for (var i = 0; i < categories.length; i++) {
+  if (isNaN(categories[i].avg)) {
+    console.log("NaN");
+  } else {
+    $('#gradeChart > tbody:last-child').append('<tr><td>' + categories[i].name + '</td><td>' + categories[i].weight + '%</td></tr>');
+    for (var k = 0; k < categories[i].grades.length; k++) {
+      $('#gradeChart > tbody > tr:last-child').append('<td><input class="gradeInput' + categories[i].name.replace(/\s/g, '') + '" style="width:40px" value="' + categories[i].grades[k] + '"></td>')
+    }
+  }
+}
+var but = document.createElement('button');
+var text = document.createTextNode("Calculate");
+but.setAttribute('id', 'calculateButton');
+but.style.margin = '20px';
+but.appendChild(text);
+body.appendChild(but);
+
+$('#calculateButton').click(function() {
+  gradeTableToObject();
+  $('#result2').remove();
+  $('.content-block').append('<h2 id="result2" style="margin-left: 20px">Grade: ' + fresult() + '%</h2>')
+});
+
+function gradeTableToObject() {
+  categories = [];
+  $('#gradeChart tbody tr').each(function(i) {
+    var cat = {};
+    cat.name = $(this).children().first().text();
+    cat.weight = Number($(this).children().eq(1).text().replace(/[^0-9]+/g, ""));
+    cat.grades = getGrade1(cat.name)
+    cat.avg = getAvg(cat.grades)
+    cat.specialNum = cat.avg * cat.weight / 100;
+    categories.push(cat);
+  })
+  console.log(categories);
+}
+
+function getGrade1(name) {
+  var grades = [];
+  $('.gradeInput' + name.replace(/\s/g, '')).each(function(i) {
+    grades.push($(this).val())
+  })
+  return grades;
+}
+
+});

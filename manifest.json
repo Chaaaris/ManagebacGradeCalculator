@@ -8,8 +8,13 @@
   "browser_action": {
     "default_popup": "popup.html"
   },
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "permissions": [
+    "*://*.managebac.com/*", "tabs", "webNavigation"
+  ],
   "content_scripts": [{
-    "all_frames": true,
     "css": ["styles.css"],
     "js": ["jquery-3.2.1.min.js", "content.js"],
     "matches": ["*://*.managebac.com/student/classes/*/assignments"]
