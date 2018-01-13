@@ -2,8 +2,6 @@ jQuery(document).ready(function() {console.log("ready");
 
 var categories = [];
 
-$('.labels-set .label-group:nth-child(2)').remove()
-
 $('.table-condensed tbody tr').each(function(i) {
   var cat = {}
   cat.name = $(this).children().first().text();
@@ -17,7 +15,7 @@ $('.table-condensed tbody tr').each(function(i) {
 function getGrade(cat) {
   var grades = [];
   $('.label-score').each(function(i) {
-    if(cat.indexOf($(this).parent().parent().children().eq(2).text()) > -1) {
+    if(cat.indexOf($(this).parent().parent().children().last().text()) > -1) {
       var a = $(this).text();
       var b = a.split('/').map(function(item) {
         return parseInt(item, 10);
@@ -53,18 +51,21 @@ function fresult() {
       sumSpecial += categories[i].specialNum;
     }
   }
-  //console.log(sumWeight);
-  //console.log(sumSpecial);
   return sumSpecial / sumWeight * 100;
 }
 
-console.log(fresult());
-var form = document.getElementsByClassName('simple_form')[0];
-var result = document.createElement('h2');
+//console.log(fresult());
+var form = document.querySelectorAll("h3")[1];
+var result = document.createElement('h3');
+result.style.color = "red";
 result.innerHTML = "Grade: " + fresult() + "%";
 form.appendChild(result)
 
 var body = document.getElementsByClassName('content-block')[0];
+var info = document.createElement('h4');
+info.innerHTML = "You can change the grades in this table and calcuate your grade again:";
+body.appendChild(info);
+
 var tbl = document.createElement('table');
 tbl.setAttribute('id', 'gradeChart');
 tbl.setAttribute('border', '1')
@@ -80,10 +81,11 @@ for (var i = 0; i < categories.length; i++) {
   } else {
     $('#gradeChart > tbody:last-child').append('<tr><td>' + categories[i].name + '</td><td>' + categories[i].weight + '%</td></tr>');
     for (var k = 0; k < categories[i].grades.length; k++) {
-      $('#gradeChart > tbody > tr:last-child').append('<td><input class="gradeInput' + categories[i].name.replace(/\s/g, '') + '" style="width:40px" value="' + categories[i].grades[k] + '"></td>')
+      $('#gradeChart > tbody > tr:last-child').append('<td><input class="gradeInput' + categories[i].name.replace(/[^a-z0-9]/gi, '') + '" style="width:40px" value="' + categories[i].grades[k] + '"></td>')
     }
   }
 }
+
 var but = document.createElement('button');
 var text = document.createTextNode("Calculate");
 but.setAttribute('id', 'calculateButton');
@@ -113,7 +115,7 @@ function gradeTableToObject() {
 
 function getGrade1(name) {
   var grades = [];
-  $('.gradeInput' + name.replace(/\s/g, '')).each(function(i) {
+  $('.gradeInput' + name.replace(/[^a-z0-9]/gi, '')).each(function(i) {
     grades.push($(this).val())
   })
   return grades;

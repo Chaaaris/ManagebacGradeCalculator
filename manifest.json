@@ -17,7 +17,7 @@
   "content_scripts": [{
     "css": ["styles.css"],
     "js": ["jquery-3.2.1.min.js", "content.js"],
-    "matches": ["*://*.managebac.com/student/classes/*/assignments"]
+    "matches": ["*://*.managebac.com/*"]
   }],
   "icons": { "16": "icon16.png",
            "48": "icon48.png",
