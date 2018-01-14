@@ -11,7 +11,8 @@ Chrome extension that calculates your grade on managebac.com
 * Click on: Load unpacked extension and select the folder
 * DONE!
 
-### Todos
+### Todo:
 
-- Improve design
-- Fix refresh bug
+- Improve design (half done)
+- Put on Chrome store
+
