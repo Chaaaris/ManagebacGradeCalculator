@@ -55,7 +55,7 @@ function fresult() {
 }
 
 //console.log(fresult());
-var form = document.querySelectorAll("h3")[1];
+var form = document.getElementsByClassName("simple_form")[0];
 var result = document.createElement('h3');
 result.style.color = "red";
 result.innerHTML = "Grade: " + Math.round(fresult() * 100) / 100 + "%";
@@ -63,7 +63,7 @@ form.appendChild(result)
 
 var body = document.getElementsByClassName('content-block')[0];
 var info = document.createElement('h4');
-info.innerHTML = "You can change the grades in this table and calcuate your grade again:";
+info.innerHTML = "You can change the grades in this table and calculate your grade again:";
 body.appendChild(info);
 
 var tbl = document.createElement('table');
