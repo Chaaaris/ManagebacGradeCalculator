@@ -74,17 +74,25 @@ var tbdy = document.createElement('tbody');
 
 tbl.appendChild(tbdy);
 body.appendChild(tbl);
-
 for (var i = 0; i < categories.length; i++) {
-  if (isNaN(categories[i].avg)) {
-    console.log("NaN");
-  } else {
-    $('#gradeChart > tbody:last-child').append('<tr><td style="padding: 5px;">' + categories[i].name + '</td><td style="padding: 5px;">' + categories[i].weight + '%</td></tr>');
+  $('#gradeChart > tbody:last-child').append('<tr id="'+ categories[i].name.replace(/[^a-z0-9]/gi, '') +'tr"><td style="padding: 5px;">' + categories[i].name + '</td><td style="padding: 5px;">' + categories[i].weight + '%</td></tr>');
+
     for (var k = 0; k < categories[i].grades.length; k++) {
       $('#gradeChart > tbody > tr:last-child').append('<td style="padding: 5px;"><input class="gradeInput' + categories[i].name.replace(/[^a-z0-9]/gi, '') + '" style="width:40px" value="' + categories[i].grades[k] + '"></td>')
+      if(k == categories[i].grades.length-1) {
+        //$('#gradeChart > tbody > tr:last-child').append('<td style="padding: 5px;"><input class="gradeInput' + categories[i].name.replace(/[^a-z0-9]/gi, '') + '" style="width:40px"></td>')
+        $('#gradeChart > tbody > tr:last-child').append('<button class="plus" id="'+ categories[i].name.replace(/[^a-z0-9]/gi, '') +'" style="margin:5px">+</button>')
+
+      }
     }
-  }
+    if(categories[i].grades.length == 0) {
+      $('#gradeChart > tbody > tr:last-child').append('<button class="plus" id="'+ categories[i].name.replace(/[^a-z0-9]/gi, '') +'"style="margin:5px">+</button>')
+    }
 }
+
+$('#gradeChart').on("click", ".plus", function(){
+  $('#'+ this.id +'tr button').before('<td style="padding: 5px;"><input class="gradeInput' + this.id + '" style="width:40px"></td>');
+});
 
 var but = document.createElement('button');
 var text = document.createTextNode("Calculate");
@@ -109,13 +117,15 @@ function gradeTableToObject() {
     cat.specialNum = cat.avg * cat.weight / 100;
     categories.push(cat);
   })
-  console.log(categories);
+  //console.log(categories);
 }
 
 function getGrade1(name) {
   var grades = [];
   $('.gradeInput' + name.replace(/[^a-z0-9]/gi, '')).each(function(i) {
-    grades.push($(this).val())
+    if($(this).val() != '') {
+      grades.push($(this).val())
+    }
   })
   return grades;
 }
