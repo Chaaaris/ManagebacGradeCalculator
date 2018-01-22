@@ -81,17 +81,17 @@ for (var i = 0; i < categories.length; i++) {
       $('#gradeChart > tbody > tr:last-child').append('<td style="padding: 5px;"><input class="gradeInput' + categories[i].name.replace(/[^a-z0-9]/gi, '') + '" style="width:40px" value="' + categories[i].grades[k] + '"></td>')
       if(k == categories[i].grades.length-1) {
         //$('#gradeChart > tbody > tr:last-child').append('<td style="padding: 5px;"><input class="gradeInput' + categories[i].name.replace(/[^a-z0-9]/gi, '') + '" style="width:40px"></td>')
-        $('#gradeChart > tbody > tr:last-child').append('<button class="plus" id="'+ categories[i].name.replace(/[^a-z0-9]/gi, '') +'" style="margin:5px">+</button>')
+        $('#gradeChart > tbody > tr:last-child').append('<td style="padding: 5px;"><button class="plus" id="'+ categories[i].name.replace(/[^a-z0-9]/gi, '') +'">+</button></td>')
 
       }
     }
     if(categories[i].grades.length == 0) {
-      $('#gradeChart > tbody > tr:last-child').append('<button class="plus" id="'+ categories[i].name.replace(/[^a-z0-9]/gi, '') +'"style="margin:5px">+</button>')
+      $('#gradeChart > tbody > tr:last-child').append('<td style="padding: 5px;"><button class="plus" id="'+ categories[i].name.replace(/[^a-z0-9]/gi, '') +'">+</button></td>')
     }
 }
 
 $('#gradeChart').on("click", ".plus", function(){
-  $('#'+ this.id +'tr button').before('<td style="padding: 5px;"><input class="gradeInput' + this.id + '" style="width:40px"></td>');
+  $('#'+ this.id +'tr td:last').before('<td style="padding: 5px;"><input class="gradeInput' + this.id + '" style="width:40px"></td>');
 });
 
 var but = document.createElement('button');
