@@ -1,8 +1,10 @@
 # ManagebacGradeCalculator
-Chrome extension that calculates your grade on managebac.com
+Chrome extension that instantly calculates your grade on opengate.managebac.com!
 
 ## Installation
+1. Chrome Store: https://goo.gl/KaGBRn
 
+2. Developer:
 * Download the zip
 * Unzip it
 * Click More (the 3 dots in the right top corner)
@@ -11,8 +13,9 @@ Chrome extension that calculates your grade on managebac.com
 * Click on: Load unpacked extension and select the folder
 * DONE!
 
-### Todo:
+### Todos
 
-- Improve design (half done)
-- Put on Chrome store
+- Improve design
 
+
+### By Bertram Skarupa

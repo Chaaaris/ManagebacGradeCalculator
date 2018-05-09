@@ -2,8 +2,9 @@
   "manifest_version": 2,
 
   "name": "Managebac Grade Calculator",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Grade Calculator",
+  "author": "Bertram Skarupa",
 
   "browser_action": {
     "default_popup": "popup.html"
@@ -16,10 +17,10 @@
   ],
   "content_scripts": [{
     "css": ["styles.css"],
-    "js": ["jquery-3.2.1.min.js", "content.js"],
+    "js": ["./resources/jquery-3.2.1.min.js", "content.js"],
     "matches": ["*://*.managebac.com/student/*"]
   }],
-  "icons": { "16": "icon16.png",
-           "48": "icon48.png",
-          "128": "icon128.png" }
+  "icons": { "16": "./resources/icon16.png",
+           "48": "./resources/icon48.png",
+          "128": "./resources/icon128.png" }
 }

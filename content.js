@@ -1,17 +1,19 @@
 jQuery(document).ready(function() {console.log("ready");
 
-var categories = [];
+var categories = []; //category array
 
+//Creates categories
 $('.table-condensed tbody tr').each(function(i) {
-  var cat = {}
-  cat.name = $(this).children().first().text();
-  cat.weight = Number($(this).find('.text-right').text().replace(/[^0-9]+/g, ""));
-  cat.grades = getGrade(cat.name)
-  cat.avg = getAvg(cat.grades)
-  cat.specialNum = cat.avg * cat.weight / 100;
-  categories.push(cat)
+  var cat = {} //category object
+  cat.name = $(this).children().first().text(); //gets category name
+  cat.weight = Number($(this).find('.text-right').text().replace(/[^0-9]+/g, "")); //gets category weight
+  cat.grades = getGrade(cat.name) //gets category grades
+  cat.avg = getAvg(cat.grades) //gets avarage of category
+  cat.specialNum = cat.avg * cat.weight / 100; //creates the number for caluclating the final grade
+  categories.push(cat) //puts category into array
 })
 
+//gets category grades
 function getGrade(cat) {
   var grades = [];
   $('.label-score').each(function(i) {
@@ -26,6 +28,7 @@ function getGrade(cat) {
   return grades;
 }
 
+//creates a avarage from array
 function getAvg(grades) {
   var sum = 0;
   for(var i = 0; i < grades.length; i++) {
@@ -34,11 +37,12 @@ function getAvg(grades) {
   return sum/grades.length;
 }
 
+//calculates the final result
 function fresult() {
   var sumWeight = 0;
   var sumSpecial = 0;
   for (var i = 0; i < categories.length; i++) {
-    if(isNaN(categories[i].avg)) {
+    if(isNaN(categories[i].avg)) { //checks if category has some grades in it
       console.log("NAN" + categories[i].name);
     } else {
       sumWeight += categories[i].weight;
@@ -54,13 +58,16 @@ function fresult() {
   return sumSpecial / sumWeight * 100;
 }
 
-//console.log(fresult());
+//This creates the red result
 var form = document.getElementsByClassName("simple_form")[0];
 var result = document.createElement('h3');
 result.style.color = "red";
 result.innerHTML = "Grade: " + Math.round(fresult() * 100) / 100 + "%";
 form.appendChild(result)
 
+
+
+//The code that creates the table in the bottom (mix of jQuery and default javascript -_-)
 var body = document.getElementsByClassName('content-block')[0];
 var info = document.createElement('h4');
 info.innerHTML = "You can change the grades in this table and calculate your grade again:";
@@ -106,6 +113,7 @@ $('#calculateButton').click(function() {
   $('.content-block').append('<h2 id="result2">Grade: ' + Math.round(fresult() * 100) / 100 + '%</h2>')
 });
 
+//creates the categories from the table to calculate the final grade
 function gradeTableToObject() {
   categories = [];
   $('#gradeChart tbody tr').each(function(i) {
@@ -117,9 +125,9 @@ function gradeTableToObject() {
     cat.specialNum = cat.avg * cat.weight / 100;
     categories.push(cat);
   })
-  //console.log(categories);
 }
 
+//gets grades from table
 function getGrade1(name) {
   var grades = [];
   $('.gradeInput' + name.replace(/[^a-z0-9]/gi, '')).each(function(i) {
