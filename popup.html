@@ -20,23 +20,75 @@
         background-color: rgb(79, 146, 250);
         margin: 0px;
       }
+      .nav {
+        display: flex;
+      }
+      .left {
+        flex: 0 0 50%;
+        text-align: center;
+        margin-top: 0px;
+        background: rgb(189, 189, 189);
+        border: solid 2px grey;
+      }
+      .right {
+        flex: 1;
+        text-align: center;
+        margin-top: 0px;
+        border: solid 2px grey;
+      }
+      #save {
+        background-color: rgb(79, 146, 250);
+      }
     </style>
-    <script src="popup.js"></script>
   </head>
 
   <body>
     <div class="header">
       <h1 style="color: white">Managebac Grade Calculator - By Bertram Skarupa</h1>
     </div>
-    <div id="container">
-      <h4>Tutorial:</h4>
-      <ul>
-        <li><p>Pick your class and go to assigments</p></li>
-        <li><p>Above the progress chart you will see your full grade!</p></li>
-        <li><p>Under all the assigments you will see a table</p></li>
-        <li><p>This table containes all your grades</p></li>
-        <li><p>You can try to change them and observe how it changes your grade</p></li>
-      </ul>
+    <div class="nav">
+      <div id="info" class="left">
+          <span>Info</span>
+      </div>
+      <div id="settings" class="right">
+          <span>Settings</span>
+      </div>
     </div>
+    <div id="container">
+      <div id="itab">
+          <h4>Tutorial:</h4>
+          <ul>
+            <li><p>Pick your class and go to assigments</p></li>
+            <li><p>Above the progress chart you will see your full grade!</p></li>
+            <li><p>Under all the assigments you will see a table</p></li>
+            <li><p>This table containes all your grades</p></li>
+            <li><p>You can try to change them and observe how it changes your grade</p></li>
+            <br>
+            <li><p>Contact me on 13skarupa@opengate.cz with any feedback or features!</p></li>
+            <li><a href="https://github.com/Bertik750/ManagebacGradeCalculator">Github Repo</a></li>
+          </ul>
+      </div>
+      <div id="stab" style="display: none;">
+          <h4>Settings:</h4>
+          
+          <ul>
+            <li><p>Check off finished assigments: <input id="ac" type="checkbox"></p></li>
+            <li><p>Choose colors for classes: <input id="cc" type="checkbox"></p></li>
+            <li><p>Set importance to assigments: <input id="im" type="checkbox"></p></li>
+            <li><p>Add personal event button to Dashboard: <input id="pe" type="checkbox"></p></li>
+            <li>
+              <p>Select grade calculation algorithm (depends on school's grade settings)</p>
+              <select id="algorithmSelect">
+                  <option value="pw">Percentage weights (default)</option>
+                  <option value="pba">Percentage weights with Points Based Averaging</option>
+                </select>
+            </li>
+          </ul>
+
+          <button id="save">Save</button>
+
+      </div>
+    </div>
+    <script type="text/javascript" src="popup.js"></script>
   </body>
 </html>

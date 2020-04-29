@@ -1,24 +1,23 @@
 {
   "manifest_version": 2,
 
-  "name": "Managebac Grade Calculator",
-  "version": "1.0.0",
-  "description": "Grade Calculator",
+  "name": "Managebac Grade Calculator & More+",
+  "short_name": "MB IB DP Grade",
+  "version": "1.1.5",
+  "description": "Grade Calculator and many more features for managebac.com IB DP platform",
   "author": "Bertram Skarupa",
+  "default_locale": "en",
 
   "browser_action": {
     "default_popup": "popup.html"
   },
+
+  "permissions": [
+    "*://*.managebac.com/student/*", "*://*.managebac.com/student", "*://*.managebac.cn/*", "tabs", "storage"
+  ],
   "background": {
     "scripts": ["background.js"]
   },
-  "permissions": [
-    "*://*.managebac.com/student/*", "tabs", "webNavigation"
-  ],
-  "content_scripts": [{
-    "js": ["./resources/jquery-3.2.1.min.js", "content.js"],
-    "matches": ["*://*.managebac.com/student/*"]
-  }],
   "icons": { "16": "./resources/icon16.png",
            "48": "./resources/icon48.png",
           "128": "./resources/icon128.png" }
