@@ -27,7 +27,7 @@ jQuery(document).ready(function() {
             }
         })
         //Creates categories
-        if (mbCalculated) {
+        if (mbCalculated) { //older, different version of managebac (probably not used anymore)
             $('.table tbody tr').each(function(i) {
                 if ($(this).children().first().text().indexOf('Overall') < 0) {
                     var cat = {} //category object
@@ -36,20 +36,32 @@ jQuery(document).ready(function() {
                     cat.weight = Number(title.substr(title.length - 5).replace(/[^0-9.]/g, "")); //gets category weight
                     cat.grades = getGrade(cat.name) //gets category gradesid.substr(id.length - 5);
                     cat.avg = getAvg(cat.grades) //gets avarage of category
-                    cat.specialNum = cat.avg * cat.weight / 100; //creates the number for caluclating the final grade
+                    cat.specialNum = cat.avg * cat.weight / 100; //creates the number for §uclating the final grade
                     categories.push(cat) //puts category into array
                 }
             })
-        } else {
-            $('.table-condensed tbody tr').each(function(i) {
+        } else if($('.sidebar-items-list').length) { //Standard most precise search alogorithm
+            $('.sidebar-items-list .list-item:not(.list-item-head)').each(function(i) { //most current version
                 var cat = {} //category object
                 cat.name = $(this).children().first().text(); //gets category name
-                cat.weight = Number($(this).find('.text-right').text().replace(/[^0-9]+/g, '')); //gets category weight
+                cat.weight = Number($(this).children().eq(1).text().replace(/[^0-9]+/g, '')); //gets category weight
                 cat.grades = getGrade(cat.name) //gets category grades
                 cat.avg = getAvg(cat.grades) //gets avarage of category
                 cat.specialNum = cat.avg * cat.weight / 100; //creates the number for caluclating the final grade
                 categories.push(cat) //puts category into array
             })
+        } else { //More universal search algorithm
+            const perts = $('section :contains("%")').filter(function() { return $(this).children().length === 0;});
+
+            for(let i=0; i<perts.length; i++) {
+                var cat = {} //category object
+                cat.name = $(perts[i]).parent().find('.label').text() //gets category name
+                cat.weight = Number($(perts[i]).text().replace(/[^0-9]+/g, '')); //gets category weight
+                cat.grades = getGrade(cat.name) //gets category grades
+                cat.avg = getAvg(cat.grades) //gets avarage of category
+                cat.specialNum = cat.avg * cat.weight / 100; //creates the number for caluclating the final grade
+                categories.push(cat) //puts category into array
+            } 
         }
 
         //gets category grades
@@ -94,7 +106,11 @@ jQuery(document).ready(function() {
                     sumSpecial += categories[i].specialNum;
                 }
             }
-            return sumSpecial / sumWeight * 100;
+            let finalGrade = Math.round(sumSpecial / sumWeight * 1000) / 10;
+            if(isNaN(finalGrade)) {
+                finalGrade = "An error has occured! Managebac changed something on the website. Please contact the developer (13skarupa@opengate.cz) or create an issue on Github.";
+            }
+            return finalGrade + "%";
         }
 
         //This creates the red result
@@ -108,13 +124,12 @@ jQuery(document).ready(function() {
         }
         result.style.color = "red";
         result.id = "result";
-        result.innerHTML = "Grade: " + Math.round(fresult() * 100) / 100 + "%";
-        console.log(fresult());
+        result.innerHTML = "Grade: " + fresult();
         form.append(result)
 
 
         //The code that creates the table in the bottom (mix of jQuery and default javascript -_-)
-        var body = $('.content-block').last();
+        var body = $('main').children().last().children();
         var info = document.createElement('h4');
         info.innerHTML = "You can change the grades in this table and calculate your grade again:";
         body.append(info);
@@ -154,10 +169,9 @@ jQuery(document).ready(function() {
         body.append(but);
 
         $('#calculateButton').click(function() {
-            console.log("test");
             gradeTableToObject();
             $('#result2').remove();
-            $('.content-block:last').append('<h2 id="result2">Grade: ' + Math.round(fresult() * 100) / 100 + '%</h2>')
+            $('.content-block:last').append('<h2 id="result2">Grade: ' + fresult() + '</h2>')
         });
 
         //creates the categories from the table to calculate the final grade

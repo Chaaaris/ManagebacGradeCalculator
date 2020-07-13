@@ -165,6 +165,7 @@ jQuery(document).ready(function() {
                 }
             }
             if(settings.im) {
+                console.log(importance)
                 $(this).append(`<span id="${id}" class="popbut"><b>!</b></span>`); //Importance hover element
                 if(importance[id] !== undefined) {
                     $('li[event_id="'+id+'"]').css("border", "5px solid " + importance[id]);

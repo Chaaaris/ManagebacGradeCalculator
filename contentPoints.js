@@ -39,16 +39,27 @@ function calculate() {
               categories.push(cat) //puts category into array
           }
       })
-  } else {
-      $('.table-condensed tbody tr').each(function(i) {
+  } else if($('.sidebar-items-list').length) { //Standard most precise search alogorithm
+    $('.sidebar-items-list .list-item:not(.list-item-head)').each(function(i) {
         var cat = {} //category object
         cat.name = $(this).children().first().text(); //gets category name
-        cat.weight = Number($(this).find('.text-right').text().replace(/[^0-9]+/g, "")); //gets category weight
+        cat.weight = Number($(this).children().eq(1).text().replace(/[^0-9]+/g, '')); //gets category weight
         cat.grades = getGrade(cat.name) //gets category grades
         cat.score = getCategoryScore(cat.grades);
         categories.push(cat) //puts category into array
       })
-  }
+  } else { //More universal search algorithm
+    const perts = $('section :contains("%")').filter(function() { return $(this).children().length === 0;});
+
+    for(let i=0; i<perts.length; i++) {
+        var cat = {} //category object
+        cat.name = $(perts[i]).parent().find('.label').text() //gets category name
+        cat.weight = Number($(perts[i]).text().replace(/[^0-9]+/g, '')); //gets category weight
+        cat.grades = getGrade(cat.name) //gets category grades
+        cat.score = getCategoryScore(cat.grades);
+        categories.push(cat) //puts category into array
+    } 
+}
 
 //gets category grades
 function getGrade(cat) {
@@ -89,7 +100,11 @@ function fresult() {
       sumWeight += catNow.weight;
     }
   }
-  return sumScore / sumWeight * 100;
+  let finalGrade = Math.round(sumScore / sumWeight * 1000) / 10;
+  if(isNaN(finalGrade)) {
+    finalGrade = "An error has occured! Managebac changed something on the website. Please contact the developer (13skarupa@opengate.cz) or create an issue on Github.";
+  }
+  return finalGrade + "%";
 }
 
 //This creates the red result
@@ -103,13 +118,12 @@ if($(".simple_form").length == 0) {
 }
 result.style.color = "red";
 result.id = "result";
-result.innerHTML = "Grade: " + Math.round(fresult() * 100) / 100 + "%";
-console.log(fresult());
+result.innerHTML = "Grade: " + fresult();
 form.append(result)
 
 
 //The code that creates the table in the bottom (mix of jQuery and default javascript -_-)
-var body = $('.content-block').last();
+var body = $('main').children().last().children();
 var info = document.createElement('h4');
 info.innerHTML = "You can change the grades in this table and calculate your grade again:";
 body.append(info);
@@ -151,7 +165,7 @@ body.append(but);
 $('#calculateButton').click(function() {
   gradeTableToObject();
   $('#result2').remove();
-  $('.content-block:last').append('<h2 id="result2">Grade: ' + Math.round(fresult() * 100) / 100 + '%</h2>')
+  $('.content-block:last').append('<h2 id="result2">Grade: ' + fresult() + '</h2>')
 });
 
 //creates the categories from the table to calculate the final grade
