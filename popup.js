@@ -2,7 +2,7 @@ var settings;
 chrome.storage.sync.get(['settings'], function(result) {
     settings = result.settings;
     if(settings == undefined) {
-        settings = {ac: true, cc: true, im: true, pe: true, ca: "pw"};
+        settings = {ac: true, cc: true, im: true, pe: true, gc: true, ca: "pw"};
     }
     console.log(settings);
 
@@ -11,6 +11,7 @@ chrome.storage.sync.get(['settings'], function(result) {
     document.getElementById("algorithmSelect").value = settings.ca;
     document.getElementById("im").checked = settings.im;
     document.getElementById("pe").checked = settings.pe;
+    document.getElementById("gc").checked = settings.gc;
 
 let info = document.getElementById("info");
 info.addEventListener('click', event => {
@@ -39,6 +40,7 @@ save.addEventListener('click', event => {
         ca: select.value,
         im: document.getElementById('im').checked,
         pe: document.getElementById('pe').checked,
+        gc: document.getElementById('gc').checked
     }
     console.log(settingsSet.ca)
     chrome.storage.sync.set({settings: settingsSet}, function() {
